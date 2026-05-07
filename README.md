@@ -1,84 +1,75 @@
-# EventSync Admin
+# React + TypeScript + Vite
 
-Interface d’administration de la plateforme **EventSync**.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Cette application permet aux organisateurs de gérer les événements, sessions, salles et intervenants via une interface moderne construite avec **React Admin**.
+Currently, two official plugins are available:
 
----
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-#  Objectif
+## React Compiler
 
-L’admin EventSync permet :
+The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
 
-- La gestion complète des événements
-- La gestion des sessions
-- La gestion des intervenants (speakers)
-- La gestion des salles
-- Le suivi des questions des participants
-- L’organisation du planning des conférences
+Note: This will impact Vite dev & build performances.
 
-Cette interface est destinée uniquement aux **organisateurs**.
+## Expanding the ESLint configuration
 
----
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-#  Stack Technique
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-## Frontend Admin
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-- React
-- React Admin
-- TailwindCSS
-- React Router
-- Axios
-
-## Backend API
-
-- Next.js API / Node.js / Java (selon implémentation backend)
-
-## Base de données
-
-- PostgreSQL
-
-## ORM
-
-- Prisma / TypeORM / Sequelize
-
----
-
-#  Structure du Projet
-
-```bash
-admin/
-├── public/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   ├── resources/
-│   │   ├── events/
-│   │   ├── sessions/
-│   │   ├── speakers/
-│   │   ├── rooms/
-│   │   └── questions/
-│   ├── providers/
-│   ├── layouts/
-│   ├── services/
-│   ├── hooks/
-│   ├── utils/
-│   ├── App.jsx
-│   └── main.jsx
-├── package.json
-└── README.md
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-# Installation 
-```bash
-1- git clone https://github.com/EventSync-Clown/eventsync-admin.git
-2- npm install
-3- npm run dev
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
-
----
-# Licence 
-Projet Académique - Usage éducatif
