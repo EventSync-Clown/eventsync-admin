@@ -103,6 +103,22 @@ Après validation :
 
 ---
 
+### 5. Démarrer le projet 
+Après clonnage du répo : 
+
+```bash
+git clone https://github.com/EventSync-Clown/eventsync-admin.git
+cd eventsync-admin
+cd eventsync-admin
+```
+
+```bash
+npm run dev
+localhost:3000/roleSelection
+```
+
+---
+
 # Structure du Projet
 
 ```bash
@@ -112,7 +128,13 @@ eventsync/
     └── eventsync-admin/
         └── prisma/
         └── public/
-        └── src
+        └── src/
+            └── app/
+               └── (auth)
+                  └── components/
+                  └── roleSelection/
+               └── dahboard    
+│                
 └── README.md
 │
 └── eventsync-client
