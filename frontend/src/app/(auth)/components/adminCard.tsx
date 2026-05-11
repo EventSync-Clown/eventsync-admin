@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { LayoutDashboard, ArrowRight, X, ShieldCheck, Hash } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 interface AdminCardProps {
     isActive: boolean;
@@ -11,6 +12,15 @@ interface AdminCardProps {
 export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
 
     const [matricule, setMatricule] = useState("");
+    const [password, setPassword] = useState("");
+    const router = useRouter();
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        if (matricule && password) {
+            router.push('/user'); 
+        }
+    };
 
     return (
         <div
@@ -58,8 +68,11 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
                         </div>
                     </div>
 
-                    <form className="space-y-5" onClick={(e) => e.stopPropagation()}>
-
+                    <form
+                        className="space-y-5"
+                        onClick={(e) => e.stopPropagation()}
+                        onSubmit={handleSubmit} 
+                    >
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-300 ml-1 flex items-center gap-2">
                                 <Hash size={14} className="text-[#c4a973]" />
@@ -79,6 +92,8 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
                             <label className="text-sm font-semibold text-gray-300 ml-1">Mot de passe</label>
                             <input
                                 type="password"
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
                                 placeholder="••••••••"
                                 className="w-full px-5 py-4 rounded-2xl border border-white/10 focus:outline-none focus:border-[#c4a973] transition-all bg-white/5 text-white placeholder:text-gray-600"
                                 required
