@@ -46,6 +46,7 @@ export default function RoleSelectionPage() {
                                     src="/Tendak_anina_logo-removebg-preview.png"
                                     alt="Logo Tendak'anina"
                                     fill
+                                    sizes="192px"
                                     className="object-contain relative z-10 drop-shadow-2xl"
                                     priority
                                 />
