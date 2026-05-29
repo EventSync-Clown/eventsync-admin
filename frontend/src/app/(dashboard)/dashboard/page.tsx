@@ -150,7 +150,7 @@ export default function AdminDashboard() {
             <PlusCircle size={32} />
           </div>
 
-          <div className="relative z-10 text-center">
+          <a href="/session" className="relative z-10 text-center">
             <span className="font-black uppercase tracking-tighter text-[#1a1d1a] dark:text-white text-lg">
               Créer une nouvelle session
             </span>
@@ -158,7 +158,7 @@ export default function AdminDashboard() {
             <p className="text-sm text-[#5f7468] dark:text-gray-500 mt-2 font-medium">
               Organisez une nouvelle expérience culinaire immersive.
             </p>
-          </div>
+          </a>
         </div>
 
         <div className="relative overflow-hidden p-10 rounded-[3rem] bg-[#1a1d1a] dark:bg-[#c4a973]/5 border border-white/10 text-white flex flex-col justify-between min-h-[280px]">
