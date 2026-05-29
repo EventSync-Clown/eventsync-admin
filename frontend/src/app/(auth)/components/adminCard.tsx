@@ -18,7 +18,7 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
         e.preventDefault();
         
         if (matricule && password) {
-            router.push('/user'); 
+            router.push('/dashboard'); 
         }
     };
 
