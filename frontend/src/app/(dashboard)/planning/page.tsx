@@ -85,13 +85,13 @@ export default function PlanningPage() {
           </p>
         </div>
 
-        <button className="group flex items-center gap-3 px-6 py-4 rounded-[1.5rem] bg-[#1a1d1a] dark:bg-[#c4a973] text-white dark:text-[#1a1d1a] font-black shadow-xl hover:scale-[1.02] transition-all duration-300">
+        <a href="/session" className="group flex items-center gap-3 px-6 py-4 rounded-[1.5rem] bg-[#1a1d1a] dark:bg-[#c4a973] text-white dark:text-[#1a1d1a] font-black shadow-xl hover:scale-[1.02] transition-all duration-300">
           <Plus
             size={20}
             className="group-hover:rotate-90 transition-transform duration-300"
           />
           Nouvelle session
-        </button>
+        </a>
       </div>
 
       <div className="relative z-10 flex flex-col md:flex-row gap-4">
