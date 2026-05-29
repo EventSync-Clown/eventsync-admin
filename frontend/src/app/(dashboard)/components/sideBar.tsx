@@ -13,8 +13,8 @@ import {
 const menuItems = [
     {
         group: "Principal", items: [
-            { name: 'Dashboard', icon: LayoutDashboard, href: '/user' },
-            { name: 'Planning', icon: CalendarClock, href: '/user/schedule' },
+            { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+            { name: 'Planning', icon: CalendarClock, href: '/planning' },
         ]
     },
     {
