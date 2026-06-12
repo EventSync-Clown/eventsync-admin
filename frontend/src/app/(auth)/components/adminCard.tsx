@@ -13,12 +13,37 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
 
     const [matricule, setMatricule] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
-        if (matricule && password) {
-            router.push('/dashboard'); 
+        setError("");
+        setLoading(true);
+
+        try {
+            const res = await fetch('http://localhost:4000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ matricule, password }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                setError(data.message || 'Erreur de connexion');
+                return;
+            }
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('admin', JSON.stringify({ name: data.name, matricule }));
+            router.push('/dashboard');
+
+        } catch {
+            setError('Impossible de contacter le serveur');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -39,7 +64,7 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
                     </div>
                     <h2 className="text-3xl font-bold text-white mb-4">Organisateur</h2>
                     <p className="text-gray-300 leading-relaxed text-lg mb-10">
-                        Pilotez les sessions, gérez les intervenants et suivez l’activité des participants.
+                        Pilotez les sessions, gérez les intervenants et suivez l'activité des participants.
                     </p>
                     <div className="inline-flex items-center gap-3 text-[#c4a973] font-semibold text-lg">
                         <span>Espace Authentifié</span>
@@ -49,7 +74,6 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
                     </div>
                 </div>
             ) : (
-
                 <div className="animate-in fade-in zoom-in-95 duration-500">
                     <button
                         onClick={(e) => { e.stopPropagation(); onToggle(false); }}
@@ -71,7 +95,7 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
                     <form
                         className="space-y-5"
                         onClick={(e) => e.stopPropagation()}
-                        onSubmit={handleSubmit} 
+                        onSubmit={handleSubmit}
                     >
                         <div className="space-y-2">
                             <label className="text-sm font-semibold text-gray-300 ml-1 flex items-center gap-2">
@@ -92,21 +116,26 @@ export default function AdminCard({ isActive, onToggle }: AdminCardProps) {
                             <label className="text-sm font-semibold text-gray-300 ml-1">Mot de passe</label>
                             <input
                                 type="password"
-                                value={password} 
-                                onChange={(e) => setPassword(e.target.value)} 
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 placeholder="••••••••"
                                 className="w-full px-5 py-4 rounded-2xl border border-white/10 focus:outline-none focus:border-[#c4a973] transition-all bg-white/5 text-white placeholder:text-gray-600"
                                 required
                             />
                         </div>
 
+                        {error && (
+                            <p className="text-red-400 text-sm text-center">{error}</p>
+                        )}
+
                         <div className="pt-2">
                             <button
                                 type="submit"
-                                className="w-full bg-[#c4a973] text-[#1a1d1a] py-4 rounded-2xl font-bold text-lg shadow-xl shadow-[#c4a973]/10 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2"
+                                disabled={loading}
+                                className="w-full bg-[#c4a973] text-[#1a1d1a] py-4 rounded-2xl font-bold text-lg shadow-xl shadow-[#c4a973]/10 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 disabled:opacity-60"
                             >
                                 <ShieldCheck size={20} />
-                                Valider les accès
+                                {loading ? 'Vérification...' : 'Valider les accès'}
                             </button>
                         </div>
                     </form>
