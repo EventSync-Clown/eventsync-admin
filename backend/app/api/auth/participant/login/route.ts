@@ -1,27 +1,27 @@
 import { NextResponse } from 'next/server'
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { prisma } from '../../../lib/prisma'
+import { prisma } from '../../../../lib/prisma'
 
 export async function POST(req: Request) {
   const { matricule, password } = await req.json()
 
-  const admin = await prisma.admin.findUnique({ where: { matricule } })
+  const participant = await prisma.participant.findUnique({ where: { matricule } })
 
-  if (!admin) {
+  if (!participant) {
     return NextResponse.json({ message: 'Matricule incorrect' }, { status: 401 })
   }
 
-  const valid = bcryptjs.compareSync(password, admin.password)
+  const valid = bcryptjs.compareSync(password, participant.password)
   if (!valid) {
     return NextResponse.json({ message: 'Mot de passe incorrect' }, { status: 401 })
   }
 
   const token = jwt.sign(
-    { id: admin.id, matricule: admin.matricule, role: 'admin' },
+    { id: participant.id, matricule: participant.matricule, role: 'participant' },
     process.env.JWT_SECRET!,
     { expiresIn: '8h' }
   )
 
-  return NextResponse.json({ token, name: admin.name, role: 'admin' })
+  return NextResponse.json({ token, name: participant.name, role: 'participant' })
 }
