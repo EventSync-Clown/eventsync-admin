@@ -20,7 +20,7 @@ const menuItems = [
     {
         group: "Événements", items: [
             { name: 'Sessions', icon: PlusCircle, href: '/session' },
-            { name: 'Participants', icon: Users, href: '/user/participants' },
+            { name: 'Participants', icon: Users, href: '/participants' },
         ]
     },
     {
