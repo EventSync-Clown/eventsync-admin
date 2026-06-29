@@ -1,163 +1,102 @@
-# EventSync - Tendak'anina
+# EventSync Admin
 
+## 📌 Présentation
 
-##  Présentation du projet
+**EventSync** est une plateforme de gestion d'événements et d'interactions en temps réel.
 
-**EventSync** est une plateforme de gestion d’événements et d’interactions en temps réel.
+Ce projet est développé dans un cadre académique et est destiné à gérer un événement composé de plusieurs **ateliers de cuisine à Madagascar**.
 
-Dans notre cas, le projet sera utilisé pour gérer un événement regroupant plusieurs **ateliers de cuisine à Madagascar**.
+Ce dépôt correspond au **Back Office Administrateur**, permettant de gérer :
 
-Ce dépôt concerne principalement :
-
-- le **Back Office Admin**
-- la gestion des :
-  - événements
-  - sessions
-  - salles
-  - intervenants
-  - questions/réponses
+* 📅 Les événements
+* 🕒 Les sessions
+* 🏛️ Les salles
+* 👨‍🍳 Les intervenants
+* ❓ Les questions et réponses des participants
 
 ---
 
-# Stack Technique
+# 🛠️ Stack Technique
 
-## Admin 
+## Frontend Admin
 
-- React Admin
-- TailwindCSS
+* React Admin
+* Tailwind CSS
 
 ## Backend API
 
-- Next.js
-- GraphQL Yoga
-- Prisma ORM
-- PostgreSQL
+* Next.js
+* GraphQL Yoga
+* Prisma ORM
+* PostgreSQL
 
 ---
 
-#  Organisation Git
+# 📁 Structure du projet
 
-## Branche principale
-
-La branche `main` sert uniquement à :
-
-- stocker la version stable du projet
-- initialiser la structure globale
-- centraliser les merges validés
-
-⚠️ On ne développe **jamais directement sur `main`**.
-
----
-
-## Workflow Git
-
-### 1. Cloner le projet
-
-```bash
-git clone https://github.com/EventSync-Clown/eventsync-admin.git
-cd eventsync-admin
-```
-
----
-
-### 2. Créer sa branche personnelle
-
-Exemple :
-
-```bash
-git checkout -b feat/admin-auth
-```
-
-Convention recommandée :
-
-```bash
-feat/nom-feature
-fix/nom-correction
-docs/nom-doc
-```
-
-Exemples :
-
-```bash
-feat/session-management
-feat/speaker-page
-fix/prisma-schema
-```
-
----
-
-### 3. Push sa branche
-
-```bash
-git push origin feat/admin-auth
-```
-
----
-
-### 4. Ouvrir une Pull Request vers `main`
-
-Après validation :
-
-- merge sur `main`
-- suppression éventuelle de la branche
-
----
-
-### 5. Démarrer le projet 
-Après clonnage du répo : 
-
-```bash
-git clone https://github.com/EventSync-Clown/eventsync-admin.git
-cd eventsync-admin
-cd eventsync-admin
-```
-
-```bash
-npm run dev
-localhost:3000/roleSelection
-```
-
----
-
-# Structure du Projet
-
-```bash
-eventsync/
+```text
+eventsync-admin/
 │
-├── eventsync-admin/
-    └── eventsync-admin/
-        └── prisma/
-        └── public/
-        └── src/
-            └── app/
-               └── (auth)
-                  └── components/
-                  └── roleSelection/
-               └── dahboard    
-│                
+├── backend/
+│   ├── prisma/
+│   ├── src/
+│   ├── package.json
+│   └── ...
+│
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   ├── package.json
+│   └── ...
+│
 └── README.md
-│
-└── eventsync-client
 ```
 
-# Licence
-Usage académique pour le moment 
+---
 
+# ⚙️ Installation
 
-Pour configurer le backend : 
+## 1. Cloner le projet
 
-créer d'abord votre database avec le nom "eventsync"
-et créer ensuite les tables suivants 
+```bash
+git clone https://github.com/EventSync-Clown/eventsync-admin.git
+cd eventsync-admin
+```
 
-eventsync=# CREATE TABLE Admin (
+---
+
+# 🗄️ Configuration de la base de données
+
+Créer une base PostgreSQL nommée :
+
+```sql
+CREATE DATABASE eventsync;
+```
+
+Puis connecter PostgreSQL :
+
+```sql
+\c eventsync
+```
+
+Créer les tables suivantes.
+
+## Table Admin
+
+```sql
+CREATE TABLE Admin (
     id VARCHAR(25) PRIMARY KEY,
     matricule VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     name VARCHAR(255),
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE
-eventsync=# CREATE TABLE Participant (
+```
+
+## Table Participant
+
+```sql
+CREATE TABLE Participant (
     id VARCHAR(25) PRIMARY KEY,
     matricule VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
@@ -166,8 +105,12 @@ eventsync=# CREATE TABLE Participant (
     phone VARCHAR(50),
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE
-eventsync=# CREATE TABLE Session (
+```
+
+## Table Session
+
+```sql
+CREATE TABLE Session (
     id VARCHAR(25) PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
@@ -177,16 +120,140 @@ eventsync=# CREATE TABLE Session (
     menuItems TEXT[],
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE
+```
 
-après avoir créer tout ça il faut 
+---
 
-cd eventsync-admin 
+# 🔐 Configuration des variables d'environnement
+
+Se placer dans le dossier du backend :
+
+```bash
 cd backend
-npm install 
-il faut créer un .env avec DATABASE_URL="postgresql://postgres:votre_mdp@localhost:5432/eventsync" et .env.local DATABASE_URL="postgresql://postgres:votre_mdp@localhost:5432/eventsync"
+```
+
+Créer un fichier `.env`
+
+```env
+DATABASE_URL="postgresql://postgres:VOTRE_MOT_DE_PASSE@localhost:5432/eventsync"
 JWT_SECRET="eventsync_secret_2024"
+```
 
+Créer également un fichier `.env.local`
 
-Pour lancer le projet maintenant, il faut lancer un par un le front et le backend 
-pour le backend : npm run dev -- -p 4000
+```env
+DATABASE_URL="postgresql://postgres:VOTRE_MOT_DE_PASSE@localhost:5432/eventsync"
+JWT_SECRET="eventsync_secret_2024"
+```
+
+---
+
+# 📦 Installation des dépendances
+
+## Backend
+
+```bash
+cd backend
+npm install
+```
+
+## Frontend
+
+```bash
+cd ../frontend
+npm install
+```
+
+---
+
+# ▶️ Lancer le projet
+
+Le frontend et le backend doivent être démarrés séparément.
+
+## 1. Lancer le Backend
+
+Depuis le dossier `backend` :
+
+```bash
+npm run dev -- -p 4000
+```
+
+Le serveur GraphQL sera disponible sur :
+
+```
+http://localhost:4000
+```
+
+---
+
+## 2. Lancer le Frontend
+
+Depuis le dossier `frontend` :
+
+```bash
+npm run dev
+```
+
+Puis ouvrir :
+
+```
+http://localhost:3000/roleSelection
+```
+
+---
+
+# 🌿 Organisation Git
+
+La branche **main** contient uniquement les versions stables du projet.
+
+Le développement doit toujours être effectué sur une branche dédiée.
+
+## Créer une branche
+
+```bash
+git checkout -b feat/nom-feature
+```
+
+Exemples :
+
+```bash
+feat/admin-auth
+feat/session-management
+feat/speaker-management
+fix/prisma-schema
+docs/readme
+```
+
+---
+
+## Envoyer sa branche
+
+```bash
+git push origin nom-de-la-branche
+```
+
+Exemple :
+
+```bash
+git push origin feat/admin-auth
+```
+
+---
+
+## Pull Request
+
+Une fois le développement terminé :
+
+1. Créer une Pull Request vers `main`.
+2. Faire relire le code.
+3. Fusionner uniquement après validation.
+
+⚠️ Aucun développement ne doit être effectué directement sur la branche `main`.
+
+---
+
+# 📄 Licence
+
+Projet développé dans le cadre d'un usage académique.
+
+Tous droits réservés aux membres du projet EventSync.
