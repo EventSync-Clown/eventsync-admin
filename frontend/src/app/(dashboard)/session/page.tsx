@@ -21,10 +21,17 @@ export default function SessionPage() {
   })
 
   useEffect(() => {
-    fetch('http://localhost:4000/api/sessions')
-      .then(res => res.json())
-      .then(data => setSessions(data))
-  }, [])
+  fetch('http://localhost:4000/api/sessions')
+    .then(res => res.json())
+    .then(data => {
+      // Gérer les deux cas : tableau direct ou objet avec sessions
+      if (Array.isArray(data)) {
+        setSessions(data)
+      } else {
+        setSessions(data.sessions ?? [])
+      }
+    })
+}, [])
 
   const handleSubmit = async () => {
     if (!form.title || !form.start || !form.end) return
