@@ -25,8 +25,8 @@ const menuItems = [
     },
     {
         group: "Cuisine", items: [
-            { name: 'Chefs', icon: ChefHat, href: '/user/chefs' },
-            { name: 'Menus', icon: BookOpen, href: '/user/menus' },
+            { name: 'Chefs', icon: ChefHat, href: '/chefs' },
+            { name: 'Menus', icon: BookOpen, href: '/menus' },
         ]
     },
 ];
