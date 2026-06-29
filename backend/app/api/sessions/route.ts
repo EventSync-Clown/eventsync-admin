@@ -3,44 +3,23 @@ import { prisma } from '../../lib/prisma'
 
 export async function GET() {
   const sessions = await prisma.session.findMany({
-    orderBy: { createdAt: 'desc' }
-  })
-  return NextResponse.json(sessions)
-}
-
-export async function POST(req: Request) {
-  const { title, description, day, start, end } = await req.json()
-
-  if (!title || !start || !end) {
-    return NextResponse.json({ message: 'Champs manquants' }, { status: 400 })
-  }
-
-  // Convertir day + heure en DateTime
-  const dayMap: Record<string, number> = {
-    'Lundi': 1, 'Mardi': 2, 'Mercredi': 3, 'Jeudi': 4,
-    'Vendredi': 5, 'Samedi': 6, 'Dimanche': 0
-  }
-
-  const now = new Date()
-  const currentDay = now.getDay()
-  const targetDay = dayMap[day] ?? 1
-  const diff = (targetDay - currentDay + 7) % 7
-
-  const startDate = new Date(now)
-  startDate.setDate(now.getDate() + diff)
-  startDate.setHours(parseInt(start.split(':')[0]), 0, 0, 0)
-
-  const endDate = new Date(startDate)
-  endDate.setHours(parseInt(end.split(':')[0]), 0, 0, 0)
-
-  const session = await prisma.session.create({
-    data: {
-      title,
-      description,
-      startTime: startDate,
-      endTime: endDate,
-    }
+    orderBy: { startTime: 'asc' }
   })
 
-  return NextResponse.json(session, { status: 201 })
+  const planning = sessions.map(session => ({
+    id: session.id,
+    title: session.title,
+    description: session.description ?? 'Aucune description',
+    date: new Date(session.startTime).toLocaleDateString('fr-FR', {
+      day: 'numeric', month: 'long', year: 'numeric'
+    }),
+    time: new Date(session.startTime).toLocaleTimeString('fr-FR', {
+      hour: '2-digit', minute: '2-digit'
+    }),
+    location: 'À définir',
+    participants: 0,
+    status: 'Confirmé',
+  }))
+
+  return NextResponse.json({ sessions: planning, total: planning.length })
 }
