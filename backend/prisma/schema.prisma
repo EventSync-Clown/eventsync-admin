@@ -26,12 +26,47 @@ model Participant {
 }
 
 model Session {
-  id          String   @id @default(cuid())
+  id          String        @id @default(cuid())
   title       String
   description String?
   startTime   DateTime
   endTime     DateTime
   chef        String?
   menuItems   String[]
+  createdAt   DateTime      @default(now())
+  chefs       ChefSession[]
+  menus       Menu[]
+} 
+
+model Chef {
+  id          String   @id @default(cuid())
+  name        String
+  specialty   String
+  bio         String?
+  phone       String?
+  email       String?  @unique
+  photoUrl    String?
+  createdAt   DateTime @default(now())
+  sessions    ChefSession[]
+}
+
+model ChefSession {
+  id        String   @id @default(cuid())
+  chefId    String
+  sessionId String
+  chef      Chef     @relation(fields: [chefId], references: [id], onDelete: Cascade)
+  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Menu {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  category    String   // Entrée, Plat, Dessert, Boisson
+  ingredients String[]
+  allergens   String[]
+  price       Float?
+  sessionId   String?
+  session     Session? @relation(fields: [sessionId], references: [id])
   createdAt   DateTime @default(now())
 }
